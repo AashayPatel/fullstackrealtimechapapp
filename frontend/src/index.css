@@ -1,1 +1,15 @@
 @import "tailwindcss";
+/* Force dark mode styles - for testing */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+html:not(.dark) body {
+  background-color: #ffffff;
+  color: #111827;
+}

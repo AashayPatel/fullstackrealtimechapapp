@@ -6,5 +6,14 @@ export default defineConfig({
   plugins: [
     react(), 
     tailwindcss()
-  ]
+  ],
+  define: {
+    'process.env': {},
+    'global': {},
+  },
+  resolve: {
+    alias: {
+      buffer: 'buffer/',
+    },
+  },
 })

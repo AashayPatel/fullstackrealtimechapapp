@@ -129,7 +129,9 @@ const SignUpPage = () => {
       </div>
 
       <div className="flex flex-col justify-center items-center p-6 sm:p-12 relative z-10">
-        <div className="w-full max-w-md space-y-8">
+        <div className="w-full max-w-lg space-y-3 p-12">
+          <div className="bg-gray-800 rounded-xl p-6 space-y-8">
+            
           {/* Logo with animation */}
           <motion.div 
             className="text-center mb-6"
@@ -154,7 +156,7 @@ const SignUpPage = () => {
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors">
                   <img 
-                    src="/public/account.svg" 
+                    src="/account.svg" 
                     alt="Logo" 
                   />
                 </div>
@@ -315,6 +317,7 @@ const SignUpPage = () => {
               </Link>
             </p>
           </motion.div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Camera, User, MessageSquare, Loader2, ArrowRight } from 'lucide-react';
+import { Camera, User,  Loader2, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -7,7 +7,7 @@ const PersonalInfoPage = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicPreview, setProfilePicPreview] = useState(null);
   const [bio, setBio] = useState('');
-  const [status, setStatus] = useState('online');
+  const [staatus, setStaatus] = useState('online');
   const [isLoading, setIsLoading] = useState(false);
   
   // Floating particles state
@@ -27,7 +27,7 @@ const PersonalInfoPage = () => {
     setParticles(newParticles);
   }, []);
 
-  const statusOptions = [
+  const staatusOptions = [
     { value: 'online', label: 'Online', color: 'bg-green-500', icon: '🟢' },
     { value: 'away', label: 'Away', color: 'bg-yellow-500', icon: '🟡' },
     { value: 'busy', label: 'Busy', color: 'bg-red-500', icon: '🔴' },
@@ -51,26 +51,33 @@ const PersonalInfoPage = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
 
-    try {
-      const formData = new FormData();
-      if (profilePic) formData.append('profilePic', profilePic);
-      formData.append('bio', bio);
-      formData.append('status', status);
+  try {
+    const formData = new FormData();
+    if (profilePic) formData.append("profilePic", profilePic);
+    formData.append("bio", bio);
+    formData.append("staatus", staatus); // fix typo if necessary
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      toast.success("Profile updated successfully!");
-      navigate('/login');
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      toast.error("Failed to update profile");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const res = await fetch("http://localhost:5001/api/auth/update-profile", {
+      method: "PUT",
+      body: formData,
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Failed to update");
+
+    toast.success("Profile updated successfully!");
+    navigate("/login");
+  } catch (err) {
+    toast.error("Something went wrong");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const handleSkip = () => {
     navigate('/login');
@@ -157,17 +164,17 @@ const PersonalInfoPage = () => {
             <p className="text-xs text-gray-500 text-right">{bio.length}/150</p>
           </div>
 
-          {/* Horizontal Status Selector - Compact */}
+          {/* Horizontal Staatus Selector - Compact */}
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-300">Status</label>
             <div className="grid grid-cols-4 gap-1">
-              {statusOptions.map((option) => (
+              {staatusOptions.map((option) => (
                 <button
                   key={option.value}
                   type="button"
-                  onClick={() => setStatus(option.value)}
+                  onClick={() => setStaatus(option.value)}
                   className={`flex flex-col items-center p-2 rounded-md transition-all ${
-                    status === option.value 
+                    staatus === option.value 
                       ? 'bg-gray-700 border border-gray-600' 
                       : 'bg-gray-800 hover:bg-gray-700'
                   }`}

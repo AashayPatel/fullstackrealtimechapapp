@@ -13,9 +13,14 @@ import { Hatch } from 'ldrs/react'
 import 'ldrs/react/Hatch.css'
 import ChatLoader from "./components/ChatLoader"
 import { Toaster } from "react-hot-toast"
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
+
 
 const App = () => {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+
+  console.log(onlineUsers);
 
   useEffect(() => {
     checkAuth()
@@ -34,22 +39,22 @@ const App = () => {
 
 
   return (
-    <div>
-      <Navbar/>
+  <div className="min-h-screen bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300">
+    <Navbar />
 
-      <Routes>
-        <Route path="/" element={authUser ? <HomePage/> : <Navigate to="/login" />}/>
-        <Route path="/signup" element={!authUser ? <SignUpPage/> : <Navigate to="/info" />}/>
-        <Route path="/info" element={authUser ? <PersonalInfoPage/> : <Navigate to="/login" />}/>
-        {/* <Route path="/login" element={!authUser ? <LoginPage/> : <Navigate to="/" />}/> */}
-        <Route path="/login" element={<LoginPage/>}/>
-        <Route path="/settings" element={authUser ? <SettingsPage/> : <Navigate to="/login" />}/>
-        <Route path="/profile" element={authUser ? <ProfilePage/> : <Navigate to="/login" />}/>
-      </Routes>
+    <Routes>
+      <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
+      <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/info" />} />
+      <Route path="/info" element={authUser ? <PersonalInfoPage /> : <Navigate to="/login" />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/settings" element={!authUser ? <SettingsPage /> : <Navigate to="/login" />} />
+      <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
+    </Routes>
 
-      <Toaster/>
-    </div>
-  )
+    <Toaster />
+  </div>
+);
+
 }
 
 export default App  
